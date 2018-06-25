@@ -1,44 +1,41 @@
 package pazargunleri;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author tuyucel
- * 
+ *
  */
 public class PazarGunleri {
 
+    public static boolean artikYil(int yil) {
+        return yil % 4 == 0 && yil % 100 != 0 || yil % 400 == 0 && yil % 4000 != 0;
+
+    }
+
     public static void main(String[] args) {
 
-        getDatesFrom();
-        String ayinIlkPazarlari = "";
-        for (int c = 0; c < getDatesFrom().toArray().length; c++) {
+        int gun = 1;
+        int ilkYil = 1900, ikinciYil = 2000;
+        int[] ayKacGun;
+        ayKacGun = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        for (int yil = ilkYil; yil <= ikinciYil; yil++) {
+            if (artikYil(yil)) {
+                ayKacGun[1] = 29;
+            } else {
+                ayKacGun[1] = 28;
+            }
+            int ay = 0;
+            while (ay < ayKacGun.length) {
 
-            ayinIlkPazarlari = getDatesFrom().toArray()[c].toString();
-            String aTarih[] = ayinIlkPazarlari.split("-");
-
-            if (aTarih[2].equals("01")) {
-                System.out.println(aTarih[0] + "-" + aTarih[1] + "-"
-                        + aTarih[2] + " Pazar günü");
+                gun += ayKacGun[ay];
+                if (gun % 7 == 0 && ay == 11) {
+                    System.out.println("01." + (ay - 10) + "." + (yil + 1) + " - Pazar");
+                } else if (gun % 7 == 0) {
+                    System.out.println("01." + (ay + 2) + "." + yil + " - Pazar");
+                }
+                ay++;
             }
         }
     }
 
-    public static List<LocalDate> getDatesFrom() {
-        List<LocalDate> dates = new ArrayList<>();
-
-        for (int i = 1900; i <= 2000; i++) {
-            for (int j = 1; j <= 12; j++) {
-                LocalDate initial = LocalDate.of(i, j, 1);
-                LocalDate start = initial.with(TemporalAdjusters.dayOfWeekInMonth(1, DayOfWeek.SUNDAY));
-                dates.add(start);
-            }
-        }
-        return dates;
-    }
 }
