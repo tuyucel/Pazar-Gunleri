@@ -13,7 +13,7 @@ public class PazarGunleri {
     }
 
     public static void main(String[] args) {
-        int gun = 1;
+        byte gun = 1;
         int ilkYil = 1900, ikinciYil = 2000;
         byte[] ayKacGun;
         ayKacGun = new byte[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -27,9 +27,10 @@ public class PazarGunleri {
 
             while (ay < ayKacGun.length) {
                 gun += (byte) ayKacGun[ay];
-                if (gun % 7 == 0 && ay == 11) {
+                gun = (byte) (gun%7);
+                if (gun  == 0 && ay == 11) {
                     System.out.println("01." + (ay - 10) + "." + (yil + 1) + " - Pazar");
-                } else if (gun % 7 == 0) {
+                } else if (gun  == 0) {
                     System.out.println("01." + (ay+2) + "." + yil + " - Pazar");
                 }
                 ay++;
